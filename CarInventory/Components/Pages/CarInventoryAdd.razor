@@ -1,5 +1,7 @@
-﻿@*
+﻿
 @page "/carinventoryadd"
+@rendermode InteractiveServer
+@inject NavigationManager NavigationManager
 
 <PageTitle>Add Car To Inventory</PageTitle>
 <h3>Add Car to Inventory</h3>
@@ -39,7 +41,7 @@
         </div>
 
         <div class="row mb-3">
-            <label for="price" class="col-form-label col-md-3">Model Type: </label>
+            <label for="price" class="col-form-label col-md-3">Price: </label>
             <div class="col-md-8">
                 <InputNumber id="price" class="form-control col-md-8" @bind-Value="@Car.Price" placeholder="Enter car price"></InputNumber>
             </div>
@@ -54,7 +56,11 @@
 
         <div>
             <button type="submit" class="btn btn-outline-primary ms-1">Submit</button>
+            <button type="button" class="btn btn-outline-primary ms-1" @onclick="@NavigateToInventoryPage">
+                Back to Inventory Home
+            </button>
         </div>
+
 
     </EditForm>
 }
@@ -87,6 +93,9 @@ else
         Message = "Car added successfully.";
     }
 
-}
+    protected void NavigateToInventoryPage()
+    {
+        NavigationManager.NavigateTo("/carinventory");
+    }
 
-*@
+}
