@@ -8,3 +8,5 @@ For starting, I have used Blazor QuickGrid and QuickGrid EntityFrameworkAdapter
 packages to work with database directly.I will add Repository and Service classes.
 
 I have initial seeded database for now.
+
+Added and modified CarInventoryAdd component, it is also using interactiveserver mode.
