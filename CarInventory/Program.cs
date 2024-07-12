@@ -1,5 +1,7 @@
 using CarInventory.Components;
 using CarInventory.Data;
+using CarInventory.Repositories;
+using CarInventory.Services;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -7,8 +9,15 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
-builder.Services.AddDbContextFactory<CarInventoryContext>();
+builder.Services.AddDbContextFactory<CarInventoryDbContext>();
+
 builder.Services.AddQuickGridEntityFrameworkAdapter();
+
+builder.Services.AddScoped<IInventoryDataService, InventoryDataService>();
+builder.Services.AddScoped<IInventoryRepository, InventoryRepository>();
+builder.Services.AddScoped<ICarRepository, CarRepository>();
+builder.Services.AddScoped<ICarDataService, CarDataService>();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

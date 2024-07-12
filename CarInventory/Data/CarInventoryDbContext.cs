@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CarInventory.Data;
 
-public class CarInventoryContext : DbContext
+public class CarInventoryDbContext : DbContext
 {
     /*
     public CarInventoryContext(DbContextOptions<CarInventoryContext> options) : base(options)

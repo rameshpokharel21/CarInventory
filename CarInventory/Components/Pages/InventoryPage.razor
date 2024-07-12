@@ -1,7 +1,7 @@
 ﻿
 @page "/carinventory"
 
-@inject CarInventoryContext Context
+@inject CarInventoryDbContext Context
 @attribute [StreamRendering(true)]
 @rendermode InteractiveServer
 
@@ -20,9 +20,71 @@
     <Paginator State="@pagination"/>
 </div>
 
+<br/>
+<br/>
+<hr/>
+
+<div>
+     <EditForm Model="MakeName" OnSubmit="OnSubmit" Enhance FormName="SearchCarMake">
+
+            <div class="row mb-3">
+                <label for="inv" class="col-form-label col-md-3">Model: </label>
+                <div class="col-md-8">
+                    <InputText id="inv" class="form-control col-md-3" @bind-Value="@MakeName" placeholder="Enter model"></InputText>
+                </div>
+            </div>
+            <div>
+                <button type="submit" class="btn btn-outline-primary ms-1">Submit</button>
+            </div>
+
+    </EditForm>
+
+    @*if else conditional is not working*@
+    @if(IsFound)
+           
+    {
+        <QuickGrid Items="@CarsListByMake"  Class="table table-striped">
+            <PropertyColumn Property="@(p => p.CarId)" Title="Car-Id" Sortable="true" />
+            <PropertyColumn Property="@(p => p.InventoryId)" Title="Inventory-Id" Sortable="true" />
+            <PropertyColumn Property="@(p => p.Make)" Sortable="true" />
+            <PropertyColumn Property="@(p => p.Model)" Sortable="true" />
+            <PropertyColumn Property="@(p => p.Trim)" Sortable="true" />
+            <PropertyColumn Property="@(p => p.Price)" Sortable="false" />
+        </QuickGrid>
+    }
+    else
+    {
+    <h4>No Data Available.</h4>
+    }
+</div>
+
 @code
 {
 
+    public IQueryable<Car> CarsListByMake { get; set; } = default!;
+
+
+    [Inject]
+    public ICarDataService? CarsDataService{ get; set; }
+
+    [SupplyParameterFromForm]
+    public string? MakeName{get; set;}
+
+    protected override void OnInitialized()
+    {
+        MakeName = string.Empty;
+
+    }
+
     PaginationState pagination = new PaginationState { ItemsPerPage = 3 };
+
+    private bool IsFound = false;
+
+    private async Task OnSubmit()
+    {
+        CarsListByMake =  (await CarsDataService.GetCarsByMake(MakeName)).AsQueryable();
+        IsFound = true;
+
+    }
 
 }

@@ -1,0 +1,92 @@
+﻿@*
+@page "/carinventoryadd"
+
+<PageTitle>Add Car To Inventory</PageTitle>
+<h3>Add Car to Inventory</h3>
+
+@if (!IsSaved)
+{
+    <EditForm Model="Car" OnSubmit="OnSubmit" Enhance FormName="AddCarForm">
+
+        <div class="row mb-3">
+            <label for="inv" class="col-form-label col-md-3">Inventory Id: </label>
+            <div class="col-md-8">
+                <InputNumber id="inv" class="form-control col-md-8" @bind-Value="@Car.InventoryId" placeholder="Enter inventory number"></InputNumber>
+            </div>
+        </div>
+
+        <div class="row mb-3">
+            <label for="make" class="col-form-label col-md-3">Make Name: </label>
+            <div class="col-md-8">
+                <InputText id="make" class="form-control col-md-8" @bind-Value="@Car.Make" placeholder="Enter Make name"></InputText>
+            </div>
+        </div>
+
+        <div class="row mb-3">
+            <label for="model" class="col-form-label col-md-3">Model Type: </label>
+            <div class="col-md-8">
+                <InputText id="model" class="form-control col-md-8" @bind-Value="@Car.Model" placeholder="Enter model name"></InputText>
+            </div>
+        </div>
+
+       
+
+        <div class="row mb-3">
+            <label for="year" class="col-form-label col-md-3">Year: </label>
+            <div class="col-md-8">
+                <InputNumber id="year" class="form-control col-md-8" @bind-Value="@Car.Year" placeholder="Enter year"></InputNumber>
+            </div>
+        </div>
+
+        <div class="row mb-3">
+            <label for="price" class="col-form-label col-md-3">Model Type: </label>
+            <div class="col-md-8">
+                <InputNumber id="price" class="form-control col-md-8" @bind-Value="@Car.Price" placeholder="Enter car price"></InputNumber>
+            </div>
+        </div>
+
+        <div class="row mb-3">
+            <label for="trim" class="col-form-label col-md-3">Trim: </label>
+            <div class="col-md-8">
+                <InputText id="trim" class="form-control col-md-8" @bind-Value="@Car.Trim" placeholder="Enter trim type"></InputText>
+            </div>
+        </div>
+
+        <div>
+            <button type="submit" class="btn btn-outline-primary ms-1">Submit</button>
+        </div>
+
+    </EditForm>
+}
+else
+{
+    <h4 class="text-sucess">@Message</h4>
+}
+
+@code {
+
+    [SupplyParameterFromForm]
+    public Car Car{ get; set; }
+
+    [Inject]
+    public ICarDataService? CarsDataService{ get; set; }
+
+    protected string Message = string.Empty;
+    protected bool IsSaved = false;
+
+    protected override void OnInitialized()
+    {
+        Car ??= new();
+    }
+
+    private async Task OnSubmit()
+    {
+
+        await CarsDataService.AddCar(Car);
+        IsSaved = true;
+        Message = "Car added successfully.";
+    }
+
+}
+
+*@

@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace CarInventory.Migrations
 {
-    [DbContext(typeof(CarInventoryContext))]
+    [DbContext(typeof(CarInventoryDbContext))]
     [Migration("20240711183340_InitialData")]
     partial class InitialData
     {

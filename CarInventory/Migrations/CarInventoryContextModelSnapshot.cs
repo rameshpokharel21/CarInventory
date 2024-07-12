@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace CarInventory.Migrations
 {
-    [DbContext(typeof(CarInventoryContext))]
+    [DbContext(typeof(CarInventoryDbContext))]
     partial class CarInventoryContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)
