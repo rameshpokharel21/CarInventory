@@ -1,9 +1,11 @@
 ﻿
 @page "/carinventory"
 
-@inject CarInventoryDbContext Context
 @attribute [StreamRendering(true)]
 @rendermode InteractiveServer
+
+@inject CarInventoryDbContext Context
+@inject NavigationManager NavigationManger
 
 
 <PageTitle>Car Inventory</PageTitle>
@@ -16,6 +18,9 @@
         <PropertyColumn Property="@(p => p.Model)" Sortable="true" />
         <PropertyColumn Property="@(p => p.Trim)" Sortable="true" />
         <PropertyColumn Property="@(p => p.Price)" Sortable="false" />
+        <TemplateColumn Title="Actions">
+            <button @onclick="@HandleEdit">Edit</button>
+        </TemplateColumn>
     </QuickGrid>
     <Paginator State="@pagination"/>
 </div>
@@ -26,7 +31,8 @@
 
 <div>
      <EditForm Model="MakeName" OnSubmit="OnSubmit" Enhance FormName="SearchCarMake">
-
+            <DataAnnotationsValidator/>
+            <ValidationSummary/>
             <div class="row mb-3">
                 <label for="inv" class="col-form-label col-md-3">Make: </label>
                 <div class="col-md-8">
@@ -39,8 +45,7 @@
 
     </EditForm>
 
-    @*if else conditional is not working*@
-    @if(IsFound)
+    @if(@CarsListByMake is not null && @CarsListByMake.ToList().Count > 0)
            
     {
         <QuickGrid Items="@CarsListByMake"  Class="table table-striped">
@@ -50,11 +55,12 @@
             <PropertyColumn Property="@(p => p.Model)" Sortable="true" />
             <PropertyColumn Property="@(p => p.Trim)" Sortable="true" />
             <PropertyColumn Property="@(p => p.Price)" Sortable="false" />
+            
         </QuickGrid>
     }
     else
     {
-    <h4>No Data Available.</h4>
+    <h4 class="alert alert-danger text-center">No Data Available.</h4>
     }
 </div>
 
@@ -78,13 +84,19 @@
 
     PaginationState pagination = new PaginationState { ItemsPerPage = 3 };
 
-    private bool IsFound = false;
+
 
     private async Task OnSubmit()
     {
         CarsListByMake =  (await CarsDataService.GetCarsByMake(MakeName)).AsQueryable();
-        IsFound = true;
 
+
+    }
+
+    private void  HandleEdit()
+    {
+        NavigationManger.NavigateTo("/inventoryEdit");
+        
     }
 
 }

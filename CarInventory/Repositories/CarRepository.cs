@@ -12,7 +12,10 @@ public class CarRepository : ICarRepository, IDisposable
         _carInventoryDbContext = DbFactory.CreateDbContext();
     }
 
-    
+    public async Task<Car> GetCarById(int carId)
+    {
+        return await _carInventoryDbContext.Cars.FirstOrDefaultAsync(car => car.CarId == carId);
+    }
 
     public async Task<IEnumerable<Car>> GetCarsByMake(string carMake)
     {
@@ -50,8 +53,37 @@ public class CarRepository : ICarRepository, IDisposable
 
     }
 
+    public async Task<Car> UpdateCar(Car car)
+    {
+        var foundCar = await _carInventoryDbContext.Cars.FirstOrDefaultAsync(c => c.CarId == car.CarId);
+
+        if (foundCar != null)
+        {
+            foundCar.InventoryId = car.InventoryId;
+            foundCar.Make = car.Make;
+            foundCar.Model = car.Model;
+            foundCar.Price = car.Price;
+            foundCar.Year = car.Year;
+
+            await _carInventoryDbContext.SaveChangesAsync();
+            return foundCar;
+        }
+        return null;
+    }
+
+    public async Task DeleteCar(int carId)
+    {
+        var foundCar = await _carInventoryDbContext.Cars.FirstOrDefaultAsync(c => c.CarId == carId);
+
+        if (foundCar == null) return;
+        _carInventoryDbContext.Cars.Remove(foundCar);
+        await _carInventoryDbContext.SaveChangesAsync();
+    }
+
     public void Dispose()
     {
         _carInventoryDbContext?.Dispose();
     }
+
+   
 }

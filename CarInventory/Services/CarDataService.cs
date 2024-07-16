@@ -12,6 +12,11 @@ public class CarDataService : ICarDataService
     {
         this._carRepository = carRepository;
     }
+
+    public async Task<Car> GetCarById(int carId)
+    {
+        return await _carRepository.GetCarById(carId);
+    }
     public async Task<IEnumerable<Car>> GetCarsByMake(string carMake)
     {
        return await _carRepository.GetCarsByMake(carMake);
@@ -40,5 +45,15 @@ public class CarDataService : ICarDataService
     public async Task<Car> AddCar(Car car)
     {
         return await _carRepository.AddCar(car);
+    }
+
+    public async Task UpdateCar(Car car)
+    {
+        await _carRepository.UpdateCar(car);
+    }
+
+    public async Task DeleteCar(int carId)
+    {
+        await _carRepository.DeleteCar(carId);
     }
 }

@@ -1,16 +1,22 @@
-﻿
-@page "/carinventoryadd"
+﻿@*
+@page "/inventoryedit/{Car:int}"
 @rendermode InteractiveServer
+
+@inject ICarDataService CarDataService
 @inject NavigationManager NavigationManager
 
-<PageTitle>Add Car To Inventory</PageTitle>
-<h3>Add Car to Inventory</h3>
+<PageTitle>Edit Inventory</PageTitle>
+<h3>Edit Inventory</h3>
+
 
 @if (!IsSaved)
 {
-    <EditForm Model="Car" OnSubmit="OnSubmit" Enhance FormName="AddCarForm">
-        <DataAnnotationsValidator/>
-        <ValidationSummary/>
+    <EditForm Enhance Model="Car"
+        OnValidSubmit="@HandleValidSubmit"
+        OnInvalidSubmit="@HandleInvalidSubmit"
+        FormName="AddCarForm">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
         <div class="row mb-3">
             <label for="inv" class="col-form-label col-md-3">Inventory Id: </label>
             <div class="col-md-8">
@@ -22,7 +28,7 @@
             <label for="make" class="col-form-label col-md-3">Make Name: </label>
             <div class="col-md-8">
                 <InputText id="make" class="form-control col-md-8" @bind-Value="@Car.Make" placeholder="Enter Make name"></InputText>
-                <ValidationMessage For="() => Car!.Make"/>
+                <ValidationMessage For="() => Car!.Make" />
             </div>
         </div>
 
@@ -30,12 +36,12 @@
             <label for="model" class="col-form-label col-md-3">Model Type: </label>
             <div class="col-md-8">
                 <InputText id="model" class="form-control col-md-8" @bind-Value="@Car.Model" placeholder="Enter model name"></InputText>
-                <ValidationMessage For="() => Car!.Model"/>
+                <ValidationMessage For="() => Car!.Model" />
             </div>
-            
+
         </div>
 
-       
+
 
         <div class="row mb-3">
             <label for="year" class="col-form-label col-md-3">Year: </label>
@@ -59,9 +65,9 @@
         </div>
 
         <div>
-            <button type="submit" class="btn btn-outline-primary ms-1">Submit</button>
+            <button type="submit" class="btn btn-outline-primary ms-1">Update</button>
             <button type="button" class="btn btn-outline-primary ms-1" @onclick="@NavigateToInventoryPage">
-                Back to Inventory Home
+                Cancel
             </button>
         </div>
 
@@ -72,40 +78,42 @@ else
 {
     <h4 class="text-sucess">@Message</h4>
 }
+*@
+
 
 @code {
+    /*
 
     [SupplyParameterFromForm]
-    public Car? Car{ get; set; }
+    public Car? Car { get; set; }
 
-    [Inject]
-    public ICarDataService? CarsDataService{ get; set; }
+    [Parameter]
+    public int CarId{ get; set; }
 
     protected string Message = string.Empty;
     protected bool IsSaved = false;
 
-    protected override void OnInitialized()
+    protected override async Task OnInitializedAsync()
     {
-        Car ??= new();
+        IsSaved = false;
+        Car = await CarDataService.GetCarById(CarId);
     }
 
-    private async Task OnSubmit()
-    {   
-        if(Car is not null && Car.InventoryId != 0)
-        {
-            await CarsDataService!.AddCar(Car);
-            IsSaved = true;
-            Message = "Car added successfully.";
-        }
-        else
-        {
-            IsSaved = false;
-        }
+    protected async Task HandleValidSubmit()
+    {
+        await CarDataService.UpdateCar(Car);
+        Message = "Car updated successfully";
+        IsSaved = true;
+    }
+
+    protected void HandleInvalidSubmit()
+    {
+        Message = "There are som validation errors. Try again.";
     }
 
     protected void NavigateToInventoryPage()
     {
         NavigationManager.NavigateTo("/carinventory");
     }
-
+    */
 }
