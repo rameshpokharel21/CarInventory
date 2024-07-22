@@ -7,7 +7,7 @@
 namespace CarInventory.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialData : Migration
+    public partial class InitialWithDataSeed : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -54,11 +54,17 @@ namespace CarInventory.Migrations
                 values: new object[]
                 {
                     10001,
+                    10002,
                     10051,
                     10052,
                     20001,
                     20002,
-                    30001
+                    30001,
+                    30002,
+                    40001,
+                    40002,
+                    50001,
+                    50002
                 });
 
             migrationBuilder.InsertData(
@@ -72,7 +78,9 @@ namespace CarInventory.Migrations
                     { 104, 10001, "Honda", "Odyssey", 55000m, "LX", 2024 },
                     { 105, 10001, "Honda", "CRV", 40000m, "EX", 2025 },
                     { 201, 20001, "Toyota", "RAV4", 35000m, "LE", 2024 },
-                    { 202, 20001, "Toyota", "CAMRY", 26000m, "XLE", 2022 }
+                    { 202, 20001, "Toyota", "CAMRY", 26000m, "XLE", 2022 },
+                    { 401, 40001, "Hyundai", "Elantra", 34000m, "SE", 2023 },
+                    { 501, 50001, "Volvo", "C70", 46000m, "Sedan", 2018 }
                 });
 
             migrationBuilder.CreateIndex(

@@ -94,17 +94,43 @@ public class CarInventoryDbContext : DbContext
                 Trim = "EX",
                 Price = 40000,
                 InventoryId = 10001
-            }
+            },
+            new Car
+            {
+                CarId = 501,
+                Make = "Volvo",
+                Model = "C70",
+                Year = 2018,
+                Trim = "Sedan",
+                Price = 46000,
+                InventoryId = 50001
+            },
+             new Car
+             {
+                 CarId = 401,
+                 Make = "Hyundai",
+                 Model = "Elantra",
+                 Year = 2023,
+                 Trim = "SE",
+                 Price = 34000,
+                 InventoryId = 40001
+             }
 
             );
 
         modelBuilder.Entity<Inventory>().HasData(
             new Inventory { InventoryId = 10001},
+             new Inventory { InventoryId = 10002 },
             new Inventory { InventoryId = 10051},
             new Inventory { InventoryId = 10052 },
             new Inventory { InventoryId = 20001 },
             new Inventory { InventoryId = 20002},
-            new Inventory { InventoryId = 30001}
+            new Inventory { InventoryId = 30001},
+            new Inventory { InventoryId = 30002 },
+            new Inventory { InventoryId = 40001 },
+            new Inventory {InventoryId = 40002},
+            new Inventory { InventoryId = 50001 },
+             new Inventory { InventoryId = 50002 }
             );
     }
 

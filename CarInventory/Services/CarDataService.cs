@@ -17,9 +17,16 @@ public class CarDataService : ICarDataService
     {
         return await _carRepository.GetCarById(carId);
     }
+
+    public async Task<IEnumerable<Car>> GetAllCars()
+    {
+        return await _carRepository.GetAllCars();
+    }
+
     public async Task<IEnumerable<Car>> GetCarsByMake(string carMake)
     {
-       return await _carRepository.GetCarsByMake(carMake);
+        return await _carRepository.GetCarsByMake(carMake);
+        
     }
 
     public async Task<IEnumerable<Car>> GetCarsByModel(string carModel)
@@ -56,4 +63,6 @@ public class CarDataService : ICarDataService
     {
         await _carRepository.DeleteCar(carId);
     }
+
+    
 }

@@ -5,6 +5,7 @@ namespace CarInventory.Repositories;
 public interface ICarRepository
 {
     Task<Car> GetCarById(int carId);
+    Task<IEnumerable<Car>> GetAllCars();
     Task<IEnumerable<Car>> GetCarsByMake(string carMake);
     Task<IEnumerable<Car>> GetCarsByModel(string carModel);
     Task<IEnumerable<Car>> GetCarsByYear(int year);

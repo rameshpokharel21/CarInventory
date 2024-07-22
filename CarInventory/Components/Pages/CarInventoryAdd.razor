@@ -1,20 +1,32 @@
 ﻿
 @page "/carinventoryadd"
+
+
 @rendermode InteractiveServer
 @inject NavigationManager NavigationManager
+
 
 <PageTitle>Add Car To Inventory</PageTitle>
 <h3>Add Car to Inventory</h3>
 
-@if (!IsSaved)
+
+@if (Car is not null)
 {
-    <EditForm Model="Car" OnSubmit="OnSubmit" Enhance FormName="AddCarForm">
-        <DataAnnotationsValidator/>
-        <ValidationSummary/>
+    <EditForm Model="@Car" OnValidSubmit="@OnSubmit"
+              Enhance FormName="CarForm">
+
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+
         <div class="row mb-3">
             <label for="inv" class="col-form-label col-md-3">Inventory Id: </label>
             <div class="col-md-8">
-                <InputNumber id="inv" class="form-control col-md-8" @bind-Value="@Car.InventoryId" placeholder="Enter inventory number"></InputNumber>
+                <InputSelect id="inv" class="form-select col-md-8" @bind-Value="@Car.InventoryId">
+                    @foreach (var inventory in InventoryList)
+                    {
+                        <option value="@inventory.InventoryId" oncontextmenu="">@inventory.InventoryId</option>
+                    }
+                </InputSelect>
             </div>
         </div>
 
@@ -22,7 +34,7 @@
             <label for="make" class="col-form-label col-md-3">Make Name: </label>
             <div class="col-md-8">
                 <InputText id="make" class="form-control col-md-8" @bind-Value="@Car.Make" placeholder="Enter Make name"></InputText>
-                <ValidationMessage For="() => Car!.Make"/>
+                <ValidationMessage For="() => Car.Make" />
             </div>
         </div>
 
@@ -30,12 +42,12 @@
             <label for="model" class="col-form-label col-md-3">Model Type: </label>
             <div class="col-md-8">
                 <InputText id="model" class="form-control col-md-8" @bind-Value="@Car.Model" placeholder="Enter model name"></InputText>
-                <ValidationMessage For="() => Car!.Model"/>
+                <ValidationMessage For="() => Car.Model" />
             </div>
-            
+
         </div>
 
-       
+
 
         <div class="row mb-3">
             <label for="year" class="col-form-label col-md-3">Year: </label>
@@ -58,20 +70,42 @@
             </div>
         </div>
 
+       
+        
+
         <div>
-            <button type="submit" class="btn btn-outline-primary ms-1">Submit</button>
-            <button type="button" class="btn btn-outline-primary ms-1" @onclick="@NavigateToInventoryPage">
-                Back to Inventory Home
+           
+            <button type="submit" class="btn btn-success ms-1"
+                    >
+                Submit
             </button>
         </div>
+        <br/>
+        <div>
+            <button type="button" class="btn btn-outline-dark ms-1"
+                    @onclick="@NavigateToInventoryPage">
+                Back to InventoryHome Page
+            </button>
+        </div>
+        
+
 
 
     </EditForm>
 }
-else
-{
-    <h4 class="text-sucess">@Message</h4>
-}
+
+    @if(!IsSaved)
+    {
+        <h4 class="text-danger text-center">@Message</h4>
+    }else
+    {
+
+        <h4 class="text-sucess text-center">@Message</h4>
+    }
+    <br/>
+    
+
+
 
 @code {
 
@@ -81,31 +115,44 @@ else
     [Inject]
     public ICarDataService? CarsDataService{ get; set; }
 
+    [Inject]
+    public IInventoryDataService? InventoryDataService { get; set; }
+
+
+    private List<Inventory> InventoryList { get; set; } = new();
+
     protected string Message = string.Empty;
     protected bool IsSaved = false;
 
-    protected override void OnInitialized()
+    protected override async Task OnInitializedAsync()
     {
         Car ??= new();
+        InventoryList = (await InventoryDataService!.GetAllInventories()).ToList();
     }
 
     private async Task OnSubmit()
     {   
-        if(Car is not null && Car.InventoryId != 0)
+        if(Car is not null && Car.InventoryId > 0)
         {
             await CarsDataService!.AddCar(Car);
             IsSaved = true;
             Message = "Car added successfully.";
+            ClearForm();
+
         }
         else
         {
             IsSaved = false;
+            Message = "There are some validation errors. Try again!";
         }
     }
 
     protected void NavigateToInventoryPage()
     {
-        NavigationManager.NavigateTo("/carinventory");
+        NavigationManager.NavigateTo("/inventoryhome");
     }
+
+    private void ClearForm() => Car = new();
+
 
 }

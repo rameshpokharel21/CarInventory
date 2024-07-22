@@ -10,3 +10,5 @@ packages to work with database directly.I will add Repository and Service classe
 I have initial seeded database for now.
 
 Added and modified CarInventoryAdd component, it is also using interactiveserver mode.
+
+Modified Inventory from InputText to InputSelect for options.

@@ -17,14 +17,21 @@ public class CarRepository : ICarRepository, IDisposable
         return await _carInventoryDbContext.Cars.FirstOrDefaultAsync(car => car.CarId == carId);
     }
 
+    public async Task<IEnumerable<Car>> GetAllCars()
+    {
+        return await _carInventoryDbContext.Cars.ToListAsync();
+    }
+
     public async Task<IEnumerable<Car>> GetCarsByMake(string carMake)
     {
-        return await _carInventoryDbContext.Cars.Where(car => car.Make.Equals(carMake)).ToListAsync();
+        string carMakeTemp = carMake.ToLower();
+        return await _carInventoryDbContext.Cars.Where(car => car.Make.ToLower().Equals(carMakeTemp)).ToListAsync();
     }
 
     public async Task<IEnumerable<Car>> GetCarsByModel(string carModel)
     {
-        return await _carInventoryDbContext.Cars.Where(car => car.Model.Equals(carModel)).ToListAsync();   
+        string carModelTemp = carModel.ToLower();
+        return await _carInventoryDbContext.Cars.Where(car => car.Model.ToLower().Equals(carModelTemp)).ToListAsync();   
     }
 
     public async Task<IEnumerable<Car>> GetCarsByPriceBelow(decimal maximumPrice)

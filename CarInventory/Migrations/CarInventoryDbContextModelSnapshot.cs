@@ -2,7 +2,6 @@
 using CarInventory.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,11 +9,9 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CarInventory.Migrations
 {
     [DbContext(typeof(CarInventoryDbContext))]
-    [Migration("20240711183340_InitialData")]
-    partial class InitialData
+    partial class CarInventoryDbContextModelSnapshot : ModelSnapshot
     {
-        /// <inheritdoc />
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "8.0.7");
@@ -123,6 +120,26 @@ namespace CarInventory.Migrations
                             Price = 40000m,
                             Trim = "EX",
                             Year = 2025
+                        },
+                        new
+                        {
+                            CarId = 501,
+                            InventoryId = 50001,
+                            Make = "Volvo",
+                            Model = "C70",
+                            Price = 46000m,
+                            Trim = "Sedan",
+                            Year = 2018
+                        },
+                        new
+                        {
+                            CarId = 401,
+                            InventoryId = 40001,
+                            Make = "Hyundai",
+                            Model = "Elantra",
+                            Price = 34000m,
+                            Trim = "SE",
+                            Year = 2023
                         });
                 });
 
@@ -143,6 +160,10 @@ namespace CarInventory.Migrations
                         },
                         new
                         {
+                            InventoryId = 10002
+                        },
+                        new
+                        {
                             InventoryId = 10051
                         },
                         new
@@ -160,6 +181,26 @@ namespace CarInventory.Migrations
                         new
                         {
                             InventoryId = 30001
+                        },
+                        new
+                        {
+                            InventoryId = 30002
+                        },
+                        new
+                        {
+                            InventoryId = 40001
+                        },
+                        new
+                        {
+                            InventoryId = 40002
+                        },
+                        new
+                        {
+                            InventoryId = 50001
+                        },
+                        new
+                        {
+                            InventoryId = 50002
                         });
                 });
 

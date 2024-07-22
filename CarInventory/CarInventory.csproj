@@ -20,4 +20,8 @@
     </PackageReference>
   </ItemGroup>
 
+  <ItemGroup>
+    <None Include="Components\Shared\CarSearchByMake.razor" />
+  </ItemGroup>
+
 </Project>

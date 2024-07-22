@@ -11,7 +11,7 @@ builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
 builder.Services.AddDbContextFactory<CarInventoryDbContext>();
 
-builder.Services.AddQuickGridEntityFrameworkAdapter();
+//builder.Services.AddQuickGridEntityFrameworkAdapter();
 
 builder.Services.AddScoped<IInventoryDataService, InventoryDataService>();
 builder.Services.AddScoped<IInventoryRepository, InventoryRepository>();

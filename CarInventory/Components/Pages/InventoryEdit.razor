@@ -1,42 +1,50 @@
-﻿@*
-@page "/inventoryedit/{Car:int}"
+﻿
+@page "/inventoryedit/{EditCarId:int}"
+
 @rendermode InteractiveServer
 
 @inject ICarDataService CarDataService
+@inject IInventoryDataService InventoryDataService
 @inject NavigationManager NavigationManager
 
 <PageTitle>Edit Inventory</PageTitle>
 <h3>Edit Inventory</h3>
 
-
-@if (!IsSaved)
+@if(EditCar is not null)
 {
-    <EditForm Enhance Model="Car"
+
+    <EditForm Enhance Model="EditCar"
         OnValidSubmit="@HandleValidSubmit"
         OnInvalidSubmit="@HandleInvalidSubmit"
-        FormName="AddCarForm">
+        FormName="EditCarForm">
         <DataAnnotationsValidator />
         <ValidationSummary />
-        <div class="row mb-3">
-            <label for="inv" class="col-form-label col-md-3">Inventory Id: </label>
-            <div class="col-md-8">
-                <InputNumber id="inv" class="form-control col-md-8" @bind-Value="@Car.InventoryId" placeholder="Enter inventory number"></InputNumber>
-            </div>
+
+    <div class="row mb-3">
+        <label for="inv" class="col-form-label col-md-3">Inventory Id: </label>
+        <div class="col-md-8">
+            <InputSelect id="inv" class="form-select col-md-8" @bind-Value="@EditCar.InventoryId">
+                @foreach (var inventory in InventoryList)
+                {
+                    <option value="@inventory.InventoryId" oncontextmenu="">@inventory.InventoryId</option>
+                }
+            </InputSelect>
         </div>
+    </div>
 
         <div class="row mb-3">
             <label for="make" class="col-form-label col-md-3">Make Name: </label>
             <div class="col-md-8">
-                <InputText id="make" class="form-control col-md-8" @bind-Value="@Car.Make" placeholder="Enter Make name"></InputText>
-                <ValidationMessage For="() => Car!.Make" />
+                <InputText id="make" class="form-control col-md-8" @bind-Value="@EditCar!.Make" placeholder="Enter Make name"></InputText>
+                <ValidationMessage For="() => EditCar!.Make" />
             </div>
         </div>
 
         <div class="row mb-3">
             <label for="model" class="col-form-label col-md-3">Model Type: </label>
             <div class="col-md-8">
-                <InputText id="model" class="form-control col-md-8" @bind-Value="@Car.Model" placeholder="Enter model name"></InputText>
-                <ValidationMessage For="() => Car!.Model" />
+                <InputText id="model" class="form-control col-md-8" @bind-Value="@EditCar.Model" placeholder="Enter model name"></InputText>
+                <ValidationMessage For="() => EditCar!.Model" />
             </div>
 
         </div>
@@ -46,21 +54,21 @@
         <div class="row mb-3">
             <label for="year" class="col-form-label col-md-3">Year: </label>
             <div class="col-md-8">
-                <InputNumber id="year" class="form-control col-md-8" @bind-Value="@Car.Year" placeholder="Enter year"></InputNumber>
+                <InputNumber id="year" class="form-control col-md-8" @bind-Value="@EditCar.Year" placeholder="Enter year"></InputNumber>
             </div>
         </div>
 
         <div class="row mb-3">
             <label for="price" class="col-form-label col-md-3">Price: </label>
             <div class="col-md-8">
-                <InputNumber id="price" class="form-control col-md-8" @bind-Value="@Car.Price" placeholder="Enter car price"></InputNumber>
+                <InputNumber id="price" class="form-control col-md-8" @bind-Value="@EditCar.Price" placeholder="Enter car price"></InputNumber>
             </div>
         </div>
 
         <div class="row mb-3">
             <label for="trim" class="col-form-label col-md-3">Trim: </label>
             <div class="col-md-8">
-                <InputText id="trim" class="form-control col-md-8" @bind-Value="@Car.Trim" placeholder="Enter trim type"></InputText>
+                <InputText id="trim" class="form-control col-md-8" @bind-Value="@EditCar.Trim" placeholder="Enter trim type"></InputText>
             </div>
         </div>
 
@@ -74,36 +82,64 @@
 
     </EditForm>
 }
-else
+
+@if (IsSaved)
+
 {
     <h4 class="text-sucess">@Message</h4>
 }
-*@
+else
+{
+
+    <h4 class="text-alarm">@Message</h4>
+
+}
+
 
 
 @code {
-    /*
+
 
     [SupplyParameterFromForm]
-    public Car? Car { get; set; }
+    public Car? EditCar { get; set; }
 
     [Parameter]
-    public int CarId{ get; set; }
+    public int EditCarId{ get; set; }
 
     protected string Message = string.Empty;
     protected bool IsSaved = false;
+    private List<Inventory> InventoryList { get; set; } = new();
 
     protected override async Task OnInitializedAsync()
     {
         IsSaved = false;
-        Car = await CarDataService.GetCarById(CarId);
+        EditCar = await CarDataService.GetCarById(EditCarId);
+        InventoryList = (await InventoryDataService!.GetAllInventories()).ToList();
+    }
+
+
+    protected override async Task OnParametersSetAsync()
+    {
+        IsSaved = false;
+        try
+        {
+            EditCar = await CarDataService.GetCarById(EditCarId);
+
+        }
+        finally
+        {
+            IsSaved = true;
+        }
     }
 
     protected async Task HandleValidSubmit()
     {
-        await CarDataService.UpdateCar(Car);
-        Message = "Car updated successfully";
-        IsSaved = true;
+        if (EditCar != null)
+        {
+            await CarDataService.UpdateCar(EditCar);
+            Message = "Car updated successfully";
+            IsSaved = true;
+        }
     }
 
     protected void HandleInvalidSubmit()
@@ -113,7 +149,7 @@ else
 
     protected void NavigateToInventoryPage()
     {
-        NavigationManager.NavigateTo("/carinventory");
+        NavigationManager.NavigateTo("/inventoryhome");
     }
-    */
+    
 }
