@@ -17,11 +17,11 @@
         <PropertyColumn Property="@(p => p.Make)" Sortable="true"  />
         <PropertyColumn Property="@(p => p.Model)" Sortable="true" />
         <PropertyColumn Property="@(p => p.Trim)" Sortable="true"  />
-        <PropertyColumn Property="@(p => p.Price)" Sortable="false" />
+        <PropertyColumn Property="@(p => p.Price)" Sortable="true" />
         <TemplateColumn Title="Actions">
 
             <button @onclick="@(() => HandleEdit(context.CarId))">Edit</button>
-            <!-- <a class="page-link" href="/carinventoryedit/@context.CarId">Edit</a> -->
+           
             <button @onclick="@(() => HandleDelete(context))">Delete</button>
             
         </TemplateColumn>>
@@ -71,7 +71,7 @@
         }
     
 
-        NavigationManager.NavigateTo("/inventoryedit/{carid}", forceLoad: true);
+        NavigationManager.NavigateTo($"/inventoryedit/{carid}", forceLoad: true);
 
 
         await Task.CompletedTask;

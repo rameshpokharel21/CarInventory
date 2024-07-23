@@ -55,6 +55,7 @@
             <label for="year" class="col-form-label col-md-3">Year: </label>
             <div class="col-md-8">
                 <InputNumber id="year" class="form-control col-md-8" @bind-Value="@EditCar.Year" placeholder="Enter year"></InputNumber>
+                <ValidationMessage For="() => EditCar!.Year" />
             </div>
         </div>
 
@@ -62,6 +63,7 @@
             <label for="price" class="col-form-label col-md-3">Price: </label>
             <div class="col-md-8">
                 <InputNumber id="price" class="form-control col-md-8" @bind-Value="@EditCar.Price" placeholder="Enter car price"></InputNumber>
+                <ValidationMessage For="() => EditCar!.Price" />
             </div>
         </div>
 
@@ -74,7 +76,7 @@
 
         <div>
             <button type="submit" class="btn btn-outline-primary ms-1">Update</button>
-            <button type="button" class="btn btn-outline-primary ms-1" @onclick="@NavigateToInventoryPage">
+            <button type="button" class="btn btn-outline-primary ms-1" @onclick="@NavigateToInventoryHomePage">
                 Cancel
             </button>
         </div>
@@ -86,14 +88,10 @@
 @if (IsSaved)
 
 {
-    <h4 class="text-sucess">@Message</h4>
+    <h4 class="text-success text-center">@Message</h4>
 }
-else
-{
 
-    <h4 class="text-alarm">@Message</h4>
 
-}
 
 
 
@@ -139,17 +137,20 @@ else
             await CarDataService.UpdateCar(EditCar);
             Message = "Car updated successfully";
             IsSaved = true;
+            ClearForm();
         }
     }
 
     protected void HandleInvalidSubmit()
     {
-        Message = "There are som validation errors. Try again.";
+        Message = "There are some validation errors. Try again.";
     }
 
-    protected void NavigateToInventoryPage()
+    protected void NavigateToInventoryHomePage()
     {
         NavigationManager.NavigateTo("/inventoryhome");
     }
-    
+
+    private void ClearForm() => EditCar = new();
+
 }

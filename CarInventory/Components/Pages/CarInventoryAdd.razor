@@ -53,6 +53,7 @@
             <label for="year" class="col-form-label col-md-3">Year: </label>
             <div class="col-md-8">
                 <InputNumber id="year" class="form-control col-md-8" @bind-Value="@Car.Year" placeholder="Enter year"></InputNumber>
+                <ValidationMessage For="() => Car.Year" />
             </div>
         </div>
 
@@ -60,6 +61,7 @@
             <label for="price" class="col-form-label col-md-3">Price: </label>
             <div class="col-md-8">
                 <InputNumber id="price" class="form-control col-md-8" @bind-Value="@Car.Price" placeholder="Enter car price"></InputNumber>
+                <ValidationMessage For="() => Car.Price" />
             </div>
         </div>
 
@@ -83,7 +85,7 @@
         <br/>
         <div>
             <button type="button" class="btn btn-outline-dark ms-1"
-                    @onclick="@NavigateToInventoryPage">
+                    @onclick="@NavigateToInventoryHomePage">
                 Back to InventoryHome Page
             </button>
         </div>
@@ -100,7 +102,7 @@
     }else
     {
 
-        <h4 class="text-sucess text-center">@Message</h4>
+        <h4 class="text-success text-center">@Message</h4>
     }
     <br/>
     
@@ -126,7 +128,7 @@
 
     protected override async Task OnInitializedAsync()
     {
-        Car ??= new();
+        Car ??= new() { Year = 2024, Price = 40000};
         InventoryList = (await InventoryDataService!.GetAllInventories()).ToList();
     }
 
@@ -147,7 +149,7 @@
         }
     }
 
-    protected void NavigateToInventoryPage()
+    protected void NavigateToInventoryHomePage()
     {
         NavigationManager.NavigateTo("/inventoryhome");
     }
