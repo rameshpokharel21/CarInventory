@@ -1,0 +1,92 @@
+﻿@page "/carsearchbyinventoryid"
+@rendermode InteractiveServer
+
+@inject ICarDataService CarDataService
+@inject IInventoryDataService InventoryDataService
+@inject NavigationManager NavigationManager
+
+<PageTitle>Car Search By InventoryId</PageTitle>
+<h3>Car Search By InventoryId</h3>
+
+<div>
+    <EditForm Model="InventoryId" OnSubmit="OnSubmit" Enhance FormName="SearchCarInventory">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+
+        <div class="row mb-3">
+            <label for="inv" class="col-form-label col-md-3">Inventory Id: </label>
+            <div class="col-md-8">
+                <InputSelect id="inv" class="form-select col-md-8" @bind-Value="@InventoryId">
+                    @foreach (var inventory in InventoryList)
+                    {
+                        <option value="@inventory.InventoryId" oncontextmenu="">@inventory.InventoryId</option>
+                    }
+                </InputSelect>
+            </div>
+        </div>
+
+        <div>
+            <button type="submit" class="btn btn-outline-primary ms-1">Submit</button>
+        </div>
+        <br />
+        <div>
+            <button type="button" class="btn btn-outline-primary ms-1"
+                    @onclick="@NavigateToCarSearchPage">
+                Back to Search Page
+            </button>
+        </div>
+
+    </EditForm>
+
+    @if (@CarsByInventoryId is not null && @CarsByInventoryId.ToList().Count > 0)
+
+    {
+        <QuickGrid Items="@CarsByInventoryId" Class="table table-striped align-content-center">
+            <PropertyColumn Property="@(p => p.CarId)" Title="Car-Id" Sortable="true" />
+            <PropertyColumn Property="@(p => p.InventoryId)" Title="Inventory-Id" Sortable="true" />
+            <PropertyColumn Property="@(p => p.Make)" Sortable="true" />
+            <PropertyColumn Property="@(p => p.Model)" Sortable="true" />
+            <PropertyColumn Property="@(p => p.Year)" Sortable="true" />
+            <PropertyColumn Property="@(p => p.Trim)" Sortable="true" />
+            <PropertyColumn Property="@(p => p.Price)" Sortable="true" />
+
+        </QuickGrid>
+    }
+    else
+    {
+        <h4 class="text text-danger text-center">No Data Available.</h4>
+    }
+</div>
+
+@code {
+    IQueryable<Car> CarsByInventoryId { get; set; } = default!;
+
+    [SupplyParameterFromForm]
+    public string InventoryId { get; set; } = string.Empty;
+
+    private List<Inventory> InventoryList { get; set; } = new(); 
+
+    private async Task OnSubmit()
+    {
+
+        if (int.TryParse(InventoryId, out int inventoryid))
+        {
+            CarsByInventoryId = (await CarDataService.GetCarsByInventoryId(inventoryid)).AsQueryable();
+        }
+
+
+    }
+
+
+    protected override async Task OnInitializedAsync()
+    {
+       InventoryList = (await InventoryDataService!.GetAllInventories()).ToList();  
+
+    }
+
+    protected void NavigateToCarSearchPage()
+    {
+        NavigationManager.NavigateTo("/carsearch");
+    }
+
+}

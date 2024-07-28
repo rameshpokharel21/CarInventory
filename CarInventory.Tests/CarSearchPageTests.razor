@@ -1,0 +1,125 @@
+﻿@inherits TestContext
+
+
+@code {
+	[Fact]
+	public void CarSearchPageHeaderRedndersCorrect()
+	{
+		// Arrange
+		var cut = Render(@<CarSearchPage />);
+
+		// Assert that content of the paragraph shows counter at zero
+		cut.Find("h4").MarkupMatches(@<h4>Car Search Menu</h4>);
+	}
+
+
+
+	[Fact]
+	public void ClickingSearchByMakeButtonNavigatesToRightPage()
+	{
+		// Arrange
+		var navman = Services.GetRequiredService<FakeNavigationManager>();
+
+		var cut = Render(@<CarSearchPage />);
+
+
+		// Act - click button
+		cut.Find("#make").Click();
+
+
+		// Assert
+		Assert.Equal("http://localhost/carsearchbymake", navman.Uri);
+
+	}
+
+	[Fact]
+	public void ClickingSearchByModelButtonNavigatesToRightPage()
+	{
+
+		// Arrange
+		var navman = Services.GetRequiredService<FakeNavigationManager>();
+
+		var cut = Render(@<CarSearchPage />);
+
+
+		// Act - click button
+		cut.Find("#model").Click();
+
+
+		// Assert
+		Assert.Equal("http://localhost/carsearchbymodel", navman.Uri);
+
+	}
+
+
+	[Fact]
+	public void ClickingSearchByYearButtonNavigatesToRightPage()
+	{
+		// Arrange
+		var navman = Services.GetRequiredService<FakeNavigationManager>();
+		var cut = Render(@<CarSearchPage />);
+
+
+		// Act - click button
+		cut.Find("#year").Click();
+
+
+		// Assert
+		Assert.Equal("http://localhost/carsearchbyyear", navman.Uri);
+
+	}
+
+	[Fact]
+	public void ClickingSearchByInventoryIdButtonNavigatesToRightPage()
+	{
+		// Arrange
+		var navman = Services.GetRequiredService<FakeNavigationManager>();
+		var cut = Render(@<CarSearchPage />);
+
+
+		// Act - click button
+		cut.Find("#inventory").Click();
+
+
+		// Assert
+		Assert.Equal("http://localhost/carsearchbyinventoryid", navman.Uri);
+
+	}
+
+	[Fact]
+	public void ClickingSearchByMaxPriceButtonNavigatesToRightPage()
+	{
+		//Arrange
+		var navman = Services.GetRequiredService<FakeNavigationManager>();
+
+		var cut = Render(@<CarSearchPage />);
+
+
+		// Act - click button
+		cut.Find("#maxprice").Click();
+
+
+		// Assert
+		Assert.Equal("http://localhost/carsearchbymaxprice", navman.Uri);
+
+	}
+
+	[Fact]
+	public void ClickingSearchByMinPriceButtonNavigatesToRightPage()
+	{
+		//Arrange
+		var navman = Services.GetRequiredService<FakeNavigationManager>();
+
+		var cut = Render(@<CarSearchPage />);
+
+
+		// Act - click button
+		cut.Find("#minprice").Click();
+
+
+		// Assert
+		Assert.Equal("http://localhost/carsearchbyminprice", navman.Uri);
+
+	}
+
+}

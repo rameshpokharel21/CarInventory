@@ -45,11 +45,19 @@ public class CarRepository : ICarRepository, IDisposable
         return await _carInventoryDbContext.Cars.Where(car => car.Price >= minimumPrice).ToListAsync(); 
     }
 
-   
+	public async Task<IEnumerable<Car>> GetCarsByPriceRange(decimal minimumPrice, decimal maximumPrice)
+	{
+		return await _carInventoryDbContext.Cars.Where(car => car.Price >= minimumPrice && car.Price <= maximumPrice).ToListAsync();
+	}
 
-    public async Task<IEnumerable<Car>> GetCarsByYear(int year)
+	public async Task<IEnumerable<Car>> GetCarsByYear(int year)
     {
         return await _carInventoryDbContext.Cars.Where(car => car.Year == year).ToListAsync();
+    }
+
+    public async Task<IEnumerable<Car>> GetCarsByInventoryId(int inventoryid)
+    {
+        return await _carInventoryDbContext.Cars.Where(car => car.InventoryId == inventoryid).ToListAsync();
     }
 
     public async Task<Car> AddCar(Car car)

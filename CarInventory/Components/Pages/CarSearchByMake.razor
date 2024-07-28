@@ -1,0 +1,80 @@
+﻿@page "/carsearchbymake"
+@rendermode InteractiveServer
+@inject ICarDataService CarDataService
+@inject NavigationManager NavigationManager
+
+<PageTitle>Car Search By Make</PageTitle>
+<h3>Car Search By Make</h3>
+
+<div>
+    <EditForm Model="MakeName" OnSubmit="OnSubmit" Enhance FormName="SearchCarMake">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+        <div class="row mb-3">
+            <label for="inv" class="col-form-label col-md-3">Make: </label>
+            <div class="col-md-8">
+                <InputText id="inv" class="form-control col-md-3" @bind-Value="@MakeName" placeholder="Enter car manufacturer"></InputText>
+            </div>
+        </div>
+        <div>
+            <button type="submit" class="btn btn-outline-primary ms-1">Submit</button>
+        </div>
+        <br />
+        <div>
+            <button type="button" class="btn btn-outline-primary ms-1"
+                    @onclick="@NavigateToSearchPage">
+                Back To Sarch Page
+            </button>
+        </div>
+
+    </EditForm>
+
+    @if (@CarsByMake is not null && @CarsByMake.ToList().Count > 0)
+
+    {
+        <QuickGrid Items="@CarsByMake" Class="table table-striped">
+            <PropertyColumn Property="@(p => p.CarId)" Title="Car-Id" Sortable="true" Align="Align.Center" />
+            <PropertyColumn Property="@(p => p.InventoryId)" Title="Inventory-Id" Sortable="true" />
+            <PropertyColumn Property="@(p => p.Make)" Sortable="true" />
+            <PropertyColumn Property="@(p => p.Model)" Sortable="true" />
+            <PropertyColumn Property="@(p => p.Year)" Sortable="true" />
+            <PropertyColumn Property="@(p => p.Trim)" Sortable="true" />
+            <PropertyColumn Property="@(p => p.Price)" Sortable="true" />
+
+        </QuickGrid>
+    }
+    else
+    {
+        <h4 class="text text-danger text-center">No Data Available.</h4>
+    }
+</div>
+
+@code {
+    IQueryable<Car> CarsByMake { get; set; } = default!;
+
+    [SupplyParameterFromForm]
+    public string? MakeName { get; set; }
+
+    private async Task OnSubmit()
+    {
+        if (MakeName is not null)
+        {
+            CarsByMake = (await CarDataService!.GetCarsByMake(MakeName)).AsQueryable();
+        }
+
+
+    }
+
+
+    protected override void OnInitialized()
+    {
+        MakeName = string.Empty;
+
+    }
+
+    protected void NavigateToSearchPage()
+    {
+        NavigationManager.NavigateTo("/carsearch");
+    }
+
+}

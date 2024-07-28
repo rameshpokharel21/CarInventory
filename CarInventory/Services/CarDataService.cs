@@ -44,11 +44,20 @@ public class CarDataService : ICarDataService
         return await _carRepository.GetCarsByPriceBelow(maximumPrice);
     }
 
-    public async Task<IEnumerable<Car>> GetCarsByYear(int year)
+	public async Task<IEnumerable<Car>> GetCarsByPriceRange(decimal minimumPrice, decimal maximumPrice)
+	{
+		return await _carRepository.GetCarsByPriceRange(minimumPrice, maximumPrice);
+	}
+
+	public async Task<IEnumerable<Car>> GetCarsByYear(int year)
     {
         return await _carRepository.GetCarsByYear(year);
     }
 
+    public async Task<IEnumerable<Car>> GetCarsByInventoryId(int inventoryid)
+    {
+        return await _carRepository.GetCarsByInventoryId(inventoryid);
+    }
     public async Task<Car> AddCar(Car car)
     {
         return await _carRepository.AddCar(car);

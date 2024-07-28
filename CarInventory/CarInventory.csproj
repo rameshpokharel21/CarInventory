@@ -21,7 +21,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="Components\Shared\CarSearchByMake.razor" />
+    <None Include="Components\Pages\CarSearchByMake.razor" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Components\Shared\" />
   </ItemGroup>
 
 </Project>

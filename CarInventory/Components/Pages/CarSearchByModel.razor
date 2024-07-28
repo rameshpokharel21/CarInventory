@@ -1,0 +1,79 @@
+﻿@page "/carsearchbymodel"
+@rendermode InteractiveServer
+
+@inject ICarDataService CarDataService
+@inject NavigationManager NavigationManager
+
+<PageTitle>Car Search By Model</PageTitle>
+<h3>Car Search By Model</h3>
+
+<div>
+    <EditForm Model="ModelName" OnSubmit="OnSubmit" Enhance FormName="SearchCarModel">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+
+        <div class="row mb-3">
+            <label for="inv" class="col-form-label col-md-3">Model: </label>
+            <div class="col-md-8">
+                <InputText id="inv" class="form-control col-md-3" @bind-Value="@ModelName" placeholder="Enter car model"></InputText>
+            </div>
+        </div>
+        <div>
+            <button type="submit" class="btn btn-outline-primary ms-1">Submit</button>
+        </div>
+        <br />
+        <div>
+            <button type="button" class="btn btn-outline-primary ms-1"
+                    @onclick="@NavigateToSearchPage">
+                Back to Search Page
+            </button>
+        </div>
+
+    </EditForm>
+
+    @if (@CarsByModel is not null && @CarsByModel.ToList().Count > 0)
+
+    {
+        <QuickGrid Items="@CarsByModel" Class="table table-striped">
+            <PropertyColumn Property="@(p => p.CarId)" Title="Car-Id" Sortable="true" Align="Align.Center" />
+            <PropertyColumn Property="@(p => p.InventoryId)" Title="Inventory-Id" Sortable="true" />
+            <PropertyColumn Property="@(p => p.Make)" Sortable="true" />
+            <PropertyColumn Property="@(p => p.Model)" Sortable="true" />
+            <PropertyColumn Property="@(p => p.Year)" Sortable="true" />
+            <PropertyColumn Property="@(p => p.Trim)" Sortable="true" />
+            <PropertyColumn Property="@(p => p.Price)" Sortable="true" />
+
+        </QuickGrid>
+    }
+    else
+    {
+        <h4 class="text text-danger text-center">No Data Available.</h4>
+    }
+</div>
+
+@code {
+    IQueryable<Car> CarsByModel { get; set; } = default!;
+
+    [SupplyParameterFromForm]
+    public string? ModelName { get; set; }
+
+    private async Task OnSubmit()
+    {
+
+        CarsByModel = (await CarDataService!.GetCarsByModel(ModelName)).AsQueryable();
+
+    }
+
+
+    protected override void OnInitialized()
+    {
+        ModelName = string.Empty;
+
+    }
+
+    protected void NavigateToSearchPage()
+    {
+        NavigationManager.NavigateTo("/carsearch");
+    }
+
+}

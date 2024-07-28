@@ -1,0 +1,83 @@
+﻿@page "/carsearchbyyear"
+@rendermode InteractiveServer
+
+@inject ICarDataService CarDataService
+@inject NavigationManager NavigationManager
+
+<PageTitle>Car Search By Year</PageTitle>
+<h3>Car Search By Year</h3>
+
+<div>
+    <EditForm Model="Year" OnSubmit="OnSubmit" Enhance FormName="SearchCarYear">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+
+        <div class="row mb-3">
+            <label for="inv" class="col-form-label col-md-3">Year: </label>
+            <div class="col-md-8">
+                <InputText id="inv" class="form-control col-md-3" @bind-Value="@Year" placeholder="Enter car manufacturer"></InputText>
+            </div>
+        </div>
+        <div>
+            <button type="submit" class="btn btn-outline-primary ms-1">Submit</button>
+        </div>
+        <br />
+        <div>
+            <button type="button" class="btn btn-outline-primary ms-1"
+                    @onclick="@NavigateToCarSearchPage">
+                Back to Search Page
+            </button>
+        </div>
+
+    </EditForm>
+
+    @if (@CarsByYear is not null && @CarsByYear.ToList().Count > 0)
+
+    {
+        <QuickGrid Items="@CarsByYear" Class="table table-striped align-content-center">
+            <PropertyColumn Property="@(p => p.CarId)" Title="Car-Id" Sortable="true" />
+            <PropertyColumn Property="@(p => p.InventoryId)" Title="Inventory-Id" Sortable="true" />
+            <PropertyColumn Property="@(p => p.Make)" Sortable="true" />
+            <PropertyColumn Property="@(p => p.Model)" Sortable="true" />
+            <PropertyColumn Property="@(p => p.Year)" Sortable="true" />
+            <PropertyColumn Property="@(p => p.Trim)" Sortable="true" />
+            <PropertyColumn Property="@(p => p.Price)" Sortable="true" />
+
+        </QuickGrid>
+    }
+    else
+    {
+        <h4 class="text text-danger text-center">No Data Available.</h4>
+    }
+</div>
+
+@code {
+    IQueryable<Car> CarsByYear { get; set; } = default!;
+
+    [SupplyParameterFromForm]
+    public string Year { get; set; } = string.Empty;
+
+    private async Task OnSubmit()
+    {
+
+        if (int.TryParse(Year, out int year))
+        {
+            CarsByYear = (await CarDataService!.GetCarsByYear(year)).AsQueryable();
+        }
+
+
+    }
+
+
+    protected override void OnInitialized()
+    {
+        Year = string.Empty;
+
+    }
+
+    protected void NavigateToCarSearchPage()
+    {
+        NavigationManager.NavigateTo("/carsearch");
+    }
+
+}

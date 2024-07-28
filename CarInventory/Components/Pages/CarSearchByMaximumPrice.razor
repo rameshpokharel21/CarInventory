@@ -1,0 +1,87 @@
+﻿@page "/carsearchbymaxprice"
+@rendermode InteractiveServer
+
+<PageTitle>Car Search By Max Price</PageTitle>
+
+<h3>Car Search By Maximum Price</h3>
+
+
+
+@inject ICarDataService CarDataService
+@inject NavigationManager NavigationManager
+
+<div>
+    <EditForm Model="@MaxPrice" OnSubmit="OnSubmit" Enhance FormName="SearchCarMaxPrice">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+        <div class="row mb-3">
+            <label for="inv" class="col-form-label col-md-3">Maximum Price: </label>
+            <div class="col-md-8">
+                <InputText id="inv" class="form-control col-md-3" @bind-Value="@MaxPrice" placeholder="Enter maximum price"></InputText>
+            </div>
+        </div>
+        <div>
+            <button type="submit" class="btn btn-outline-primary ms-1">Submit</button>
+        </div>
+        <br />
+        <div>
+            <button type="button" class="btn btn-outline-primary ms-1"
+                    @onclick="@NavigateToSearchPage">
+                Back to Search Page
+            </button>
+        </div>
+
+    </EditForm>
+
+    @if (@CarsByMaxPrice is not null && @CarsByMaxPrice.ToList().Count > 0)
+
+    {
+        <QuickGrid Items="@CarsByMaxPrice" Class="table table-striped">
+            <PropertyColumn Property="@(p => p.CarId)" Title="Car-Id" Sortable="true" />
+            <PropertyColumn Property="@(p => p.InventoryId)" Title="Inventory-Id" Sortable="true" />
+            <PropertyColumn Property="@(p => p.Make)" Sortable="true" />
+            <PropertyColumn Property="@(p => p.Model)" Sortable="true" />
+            <PropertyColumn Property="@(p => p.Year)" Sortable="true" />
+            <PropertyColumn Property="@(p => p.Trim)" Sortable="true" />
+            <PropertyColumn Property="@(p => p.Price)" Sortable="true" />
+
+        </QuickGrid>
+    }
+    else
+    {
+        <h4 class="text text-danger text-center">No Data Available.</h4>
+    }
+</div>
+
+@code {
+    IQueryable<Car> CarsByMaxPrice { get; set; } = default!;
+
+    //private string Price{ get; set; } = string.Empty;
+
+
+    [SupplyParameterFromForm]
+    public string MaxPrice { get; set; } = default!;
+
+    private async Task OnSubmit()
+    {
+
+
+        if (decimal.TryParse(MaxPrice, out decimal maxPrice))
+        {
+            CarsByMaxPrice = (await CarDataService.GetCarsByPriceBelow(maxPrice)).AsQueryable();
+        }
+    }
+
+
+    protected override void OnInitialized()
+    {
+        MaxPrice = string.Empty;
+
+    }
+
+    protected void NavigateToSearchPage()
+    {
+        NavigationManager.NavigateTo("/carsearch");
+    }
+
+}

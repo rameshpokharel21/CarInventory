@@ -24,7 +24,7 @@
            
             <button @onclick="@(() => HandleDelete(context))">Delete</button>
             
-        </TemplateColumn>>
+        </TemplateColumn>
       
     </QuickGrid>
     <Paginator State="@pagination"/>
@@ -32,24 +32,14 @@
 
 <br/>
 <br/>
-<hr/>
 
-<a type="button" class="btn btn-dark" href="/carsearch">Car Search Page</a>
-<br/>
-<br/>
-<a type="button" class="btn btn-dark" href="/carinventoryadd">Car Add Page</a>
-<br />
 
 @code
 {
 
     private IQueryable<Car>? AllCars{ get; set; }
 
-    /*
-    [Parameter]
-    public int EditCarId{ get; set; }
-    */
-
+ 
     protected override async Task OnInitializedAsync()
     {
 
