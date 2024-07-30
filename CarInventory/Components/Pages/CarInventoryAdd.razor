@@ -128,7 +128,7 @@
 
     protected override async Task OnInitializedAsync()
     {
-        Car ??= new() { Year = 2024, Price = 40000};
+        Car ??= new();
         InventoryList = (await InventoryDataService!.GetAllInventories()).ToList();
     }
 

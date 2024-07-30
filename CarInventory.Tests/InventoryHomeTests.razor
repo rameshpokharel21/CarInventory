@@ -1,0 +1,21 @@
+﻿@inherits TestContext
+
+@code {
+    [Fact]
+    public void InventoryHomePageRendersCorrectly()
+    {
+        //Arrange
+        //Services.AddSingleton<ICarDataService>(new CarDataService(new CarRepository());
+        //Mock<QuickGrid> mockComp = new Mock<QuickGrid>();
+       // ComponentFactories.Add<QuickGrid>(mockComp.object);
+
+
+        var cut = Render(@<InventoryHome />);
+
+        //Assert
+        cut.Find("h3").MarkupMatches(@<h3> Car Inventory </h3 >);
+        
+
+    }
+
+}
