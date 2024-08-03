@@ -7,23 +7,32 @@
 <h4>Car Search Menu</h4>
 
 <hr />
+<div>
+    <button class ="btn btn-primary" id="make" @onclick="@(() => NavMan.NavigateTo("/carsearchbymake"))">Search By Make</button>
+</div>
+<br />
+<div>
+    <button class="btn btn-primary" id="year" @onclick="@(() => NavMan.NavigateTo("/carsearchbyyear"))">Search By Year</button>
+</div>
+<br />
+<div>
+    <button class="btn btn-primary" id="model" @onclick="@(() => NavMan.NavigateTo("/carsearchbymodel"))">Search By Model</button>
+</div>
+<br/>
+<div>
+    <button class="btn btn-primary" id="maxprice" @onclick="@(() => NavMan.NavigateTo("/carsearchbymaxprice"))">Search By Maximum Price</button>
+</div>
+<br/>
+<div>
+    <button class="btn btn-primary" id="minprice" @onclick="@(() => NavMan.NavigateTo("/carsearchbyminprice"))">Search By Minimum Price</button>
 
-<button id="make" @onclick="@(() => NavMan.NavigateTo("/carsearchbymake"))">Search By Make</button>
-&nbsp;
+</div>
+<br/>
+<div>
+    <button class="btn btn-primary" id="inventory" @onclick="@(() => NavMan.NavigateTo("/carsearchbyinventoryid"))">Search By Inventory Id</button>
+</div>
 
-<button id="year" @onclick="@(() => NavMan.NavigateTo("/carsearchbyyear"))">Search By Year</button>
-&nbsp;
 
-<button id="model" @onclick="@(() => NavMan.NavigateTo("/carsearchbymodel"))">Search By Model</button>
-&nbsp;
-
-<button id="maxprice" @onclick="@(() => NavMan.NavigateTo("/carsearchbymaxprice"))">Search By Maximum Price</button>
-&nbsp;
-
-<button id="minprice" @onclick="@(() => NavMan.NavigateTo("/carsearchbyminprice"))">Search By Minimum Price</button>
-&nbsp;
-
-<button id="inventory" @onclick="@(() => NavMan.NavigateTo("/carsearchbyinventoryid"))">Search By Inventory Id</button>
 
 @code
 {

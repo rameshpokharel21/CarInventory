@@ -1,7 +1,7 @@
 ﻿
 @page "/inventoryedit/{EditCarId:int}"
-
 @rendermode InteractiveServer
+
 
 @inject ICarDataService CarDataService
 @inject IInventoryDataService InventoryDataService
@@ -85,10 +85,15 @@
     </EditForm>
 }
 
-@if (IsSaved)
+@if(IsSaved)
 
 {
     <h4 class="text-success text-center">@Message</h4>
+    <!--<button type="button" class="btn btn-outline-primary" @onclick="@NavigateToInventoryHomePage">Back to Inventory Home</button>  -->
+}
+else
+{
+    <h4 class="text-danger text-center">@Message</h4>
 }
 
 
@@ -115,20 +120,21 @@
         InventoryList = (await InventoryDataService!.GetAllInventories()).ToList();
     }
 
-
+    /*
     protected override async Task OnParametersSetAsync()
-    {
-        IsSaved = false;
-        try
         {
+        IsSaved = false;
+            try
+            {
             EditCar = await CarDataService.GetCarById(EditCarId);
 
         }
-        finally
-        {
+            finally
+            {
             IsSaved = true;
-        }
     }
+    }
+    */
 
     protected async Task HandleValidSubmit()
     {
@@ -137,12 +143,13 @@
             await CarDataService.UpdateCar(EditCar);
             Message = "Car updated successfully";
             IsSaved = true;
-           
+
         }
     }
 
-    protected void HandleInvalidSubmit()
+    protected void  HandleInvalidSubmit()
     {
+
         Message = "There are some validation errors. Try again.";
     }
 

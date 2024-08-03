@@ -1,12 +1,16 @@
 ﻿@inherits TestContext
+@using Moq
 
 @code {
     [Fact]
     public void InventoryHomePageRendersCorrectly()
     {
         //Arrange
-        //Services.AddSingleton<ICarDataService>(new CarDataService(new CarRepository());
-        //Mock<QuickGrid> mockComp = new Mock<QuickGrid>();
+
+        List<Car> cars = new() { new Car { CarId = 345, InventoryId = 50002, Make = "Nissan", Model = "Altima", Price = 34000, Year = 2020, Trim = "LX" } };
+        var mockCarDataService = new Mock<ICarDataService>();
+        Services.AddSingleton<ICarDataService>(mockCarDataService.Object);
+        Mock<QuickGrid<Car>> mockComp = new Mock<QuickGrid<Car>>(cars);
        // ComponentFactories.Add<QuickGrid>(mockComp.object);
 
 

@@ -1,10 +1,11 @@
 ﻿
-@page "/carinventoryadd"
+@page "/inventoryadd"
 
 
 @rendermode InteractiveServer
 @inject NavigationManager NavigationManager
-
+@inject ICarDataService CarsDataService
+@inject IInventoryDataService InventoryDataService
 
 <PageTitle>Add Car To Inventory</PageTitle>
 <h3>Add Car to Inventory</h3>
@@ -113,13 +114,6 @@
 
     [SupplyParameterFromForm]
     public Car? Car{ get; set; }
-
-    [Inject]
-    public ICarDataService? CarsDataService{ get; set; }
-
-    [Inject]
-    public IInventoryDataService? InventoryDataService { get; set; }
-
 
     private List<Inventory> InventoryList { get; set; } = new();
 
