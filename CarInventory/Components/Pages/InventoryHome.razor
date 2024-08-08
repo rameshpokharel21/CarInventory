@@ -12,12 +12,12 @@
 <h3>Car Inventory</h3>
 <div>
     <QuickGrid Items="@AllCars" Pagination="@pagination" Class="table table-striped">
-        <PropertyColumn Property="@(p => p.CarId)" Title="Car-Id" Sortable="true" />
-        <PropertyColumn Property="@(p => p.InventoryId)" Title="Inventory-Id" Sortable="true"  />
-        <PropertyColumn Property="@(p => p.Make)" Sortable="true"  />
-        <PropertyColumn Property="@(p => p.Model)" Sortable="true" />
-        <PropertyColumn Property="@(p => p.Trim)" Sortable="true"  />
-        <PropertyColumn Property="@(p => p.Price)" Sortable="true" />
+        <PropertyColumn Property="@(car => car.CarId)" Title="Car-Id" Sortable="true" />
+        <PropertyColumn Property="@(car => car.InventoryId)" Title="Inventory-Id" Sortable="true"  />
+        <PropertyColumn Property="@(car => car.Make)" Sortable="true"  />
+        <PropertyColumn Property="@(car => car.Model)" Sortable="true" />
+        <PropertyColumn Property="@(car => car.Trim)" Sortable="true"  />
+        <PropertyColumn Property="@(car => car.Price)" Sortable="true" />
         <TemplateColumn Title="Actions">
 
             <button @onclick="@(() => HandleEdit(context.CarId))">Edit</button>

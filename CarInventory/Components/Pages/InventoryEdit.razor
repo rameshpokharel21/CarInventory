@@ -18,7 +18,7 @@
         OnInvalidSubmit="@HandleInvalidSubmit"
         FormName="EditCarForm">
         <DataAnnotationsValidator />
-        <ValidationSummary />
+       
 
     <div class="row mb-3">
         <label for="inv" class="col-form-label col-md-3">Inventory Id: </label>
@@ -120,24 +120,11 @@ else
         InventoryList = (await InventoryDataService!.GetAllInventories()).ToList();
     }
 
-    /*
-    protected override async Task OnParametersSetAsync()
-        {
-        IsSaved = false;
-            try
-            {
-            EditCar = await CarDataService.GetCarById(EditCarId);
-
-        }
-            finally
-            {
-            IsSaved = true;
-    }
-    }
-    */
+  
 
     protected async Task HandleValidSubmit()
     {
+        
         if (EditCar != null)
         {
             await CarDataService.UpdateCar(EditCar);
