@@ -2,7 +2,7 @@
 
 Overview:
 
-CarInventory is my capstone project for CODE:You 2024 January Software Development Path. It is C# based CRUD application that manages the invenotory for a car dealer.
+CarInventory is my capstone project for CODE:You 2024 January Software Development Pathway. It is C# based CRUD application that manages the inventory for a car dealer.
 
 Features Utilized:
 
