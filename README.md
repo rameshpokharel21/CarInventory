@@ -9,7 +9,7 @@ Features Utilized:
 C# and dotnet: version 8\
 Blazor- uses blazor server interactivity render mode\
 Entity Framework Core- dotnet framework for object-relational mapping(ORM)\
-SQLite3- database system used for persistence\
+SQLite3- database system used for persistence
 
 Getting Started:
 
@@ -25,10 +25,10 @@ Database Setup:
 ConnectionStrings and Initial Data is provided inside the code.
 Following database commands were used to add/remove migrations and the database in .net cli
 
-dotnet tool install --global dotnet-ef
-dotnet ef migrations add <MigrationName> (visual studio PM Console: Add-Migration <MigrationName>)
-dotnet ef migrations remove (pm console: remove-migration)
-dotnet ef database update (pm console: update-database)
+dotnet tool install --global dotnet-ef\
+dotnet ef migrations add <MigrationName> (visual studio PM Console: Add-Migration <MigrationName>)\
+dotnet ef migrations remove (pm console: remove-migration)\
+dotnet ef database update (pm console: update-database)\
 dotnet ef database drop (--force) (visual studio pm console: drop-database)
 
 Dependencies(Packages)
@@ -36,6 +36,6 @@ Dependencies(Packages)
 Microsoft.EntityFrameworkCore.SQLite(8.0.7)\
  Microsoft.EntityFrameworkCore.Tools(8.0.7)\
  Microsoft.EntityFrameworkCore.Design(8.0.7)\
- Microsoft.AspNetCore.Components.QuickGrid(8.0.7)\
+ Microsoft.AspNetCore.Components.QuickGrid(8.0.7)
 
 Tests Setup was done using bunit.template: dotnet new install bunit.template
